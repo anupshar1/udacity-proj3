@@ -14,9 +14,9 @@ commands:
           when: on_fail
           command: |
             # Your code here
-            aws s3 rm s3://proj3-backend-"$CIRCLE_WORKFLOW_ID" --recursive
-            aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}
             aws cloudformation delete-stack --stack-name proj3-backend-${CIRCLE_WORKFLOW_ID}
+            aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}
+            aws s3 rm s3://proj3-backend-"$CIRCLE_WORKFLOW_ID" --recursive
 
   # revert-migrations:
   #   description: Revert the last migration if successfully run in the current workflow.
@@ -208,6 +208,9 @@ jobs:
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
             --output text >> URL
             curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data URL https://api.memstash.io/values/
+      - run:
+        name: Install tar
+        command: yum -y install tar gzip
       - persist_to_workspace:
           root: ~/
           paths:

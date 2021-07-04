@@ -193,8 +193,8 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            # Your code here
-            echo "[all]" > inventory
+#            # Your code here
+#            echo "[all]" > inventory
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
@@ -217,24 +217,28 @@ jobs:
 #      - revert-migrations
   
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints: ["b7:e7:4d:ae:b7:b6:6b:0b:44:1d:98:53:ee:8a:1b:2a"]
+      # attach workspace
+      - run:
+          name: Install dependencies
+          command: |
+            # Your code here
+            apk add --update ansible 
+      - run:
+          name: Configure server
+          command: |
+            # Your code here
+            ansible-playbook -i inventory.txt configure-server.yml
+      # Here's where you will add some code to rollback on failure      
 
 #   run-migrations:
 #     docker:
@@ -368,8 +372,8 @@ workflows:
           filters:
             branches:
               only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:

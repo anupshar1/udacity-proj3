@@ -208,9 +208,6 @@ jobs:
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
             --output text >> URL
             curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data URL https://api.memstash.io/values/
-      - run:
-        name: Install tar
-        command: yum -y install tar gzip
       - persist_to_workspace:
           root: ~/
           paths:

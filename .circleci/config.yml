@@ -199,12 +199,12 @@ jobs:
           name: Add back-end url for later use 
           command: |
             # Your code here
-            aws ec2 describe-instances \
+            URL=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicDnsName' \
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
-            --output text >> URL
+            --output text)
             echo $URL
-            curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data URL https://api.memstash.io/values/
+            curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data $URL https://api.memstash.io/values/
       - persist_to_workspace:
           root: ~/
           paths:
@@ -251,6 +251,8 @@ jobs:
             # Your code here
             cd backend
             npm install
+            sudo apt-get update
+            sudo apt-get install awscli
             npm run migrations > migration-output.txt
             cat migration-output.txt
       - run:

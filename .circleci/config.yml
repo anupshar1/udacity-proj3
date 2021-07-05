@@ -14,6 +14,8 @@ commands:
           when: on_fail
           command: |
             # Your code here
+            sudo apt-get update
+            sudo apt-get install awscli
             aws cloudformation delete-stack --stack-name proj3-backend-${CIRCLE_WORKFLOW_ID}
             aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}
             aws s3 rm s3://proj3-backend-"$CIRCLE_WORKFLOW_ID" --recursive
@@ -29,7 +31,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/)
+            SUCCESS=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/)
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -204,7 +206,7 @@ jobs:
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
             --output text)
             echo $URL
-            curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data $URL https://api.memstash.io/values/
+            curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data "$URL" https://api.memstash.io/values/
       - persist_to_workspace:
           root: ~/
           paths:
@@ -251,8 +253,6 @@ jobs:
             # Your code here
             cd backend
             npm install
-            sudo apt-get update
-            sudo apt-get install awscli
             npm run migrations > migration-output.txt
             cat migration-output.txt
       - run:

@@ -18,7 +18,7 @@ commands:
             sudo apt-get install awscli
             aws cloudformation delete-stack --stack-name proj3-backend-${CIRCLE_WORKFLOW_ID}
             aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}
-            #aws s3 rm s3://proj3-backend-"$CIRCLE_WORKFLOW_ID" --recursive
+            aws s3 rm s3://udapeople-"$CIRCLE_WORKFLOW_ID" --recursive
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -300,7 +300,7 @@ jobs:
           name: Deploy frontend objects
           command: |
             # your code here
-            aws s3 cp ./dist s://udapeople-505103741405.s3.amazonaws.com --recursive
+            aws s3 cp ./dist s3://udapeople-505103741405.s3.amazonaws.com --recursive
 
       # Here's where you will add some code to rollback on failure 
       # - destroy-environment

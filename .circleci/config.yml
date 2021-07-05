@@ -31,7 +31,7 @@ commands:
           when: on_fail
           command: |
             sudo apt-get update
-            apt add --update curl
+            apt add install curl
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/migout)
             if(( $SUCCESS==1 )); 
@@ -383,7 +383,7 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
+      #- build-frontend
       - build-backend
       # - test-frontend:
       #     requires: [build-frontend]
@@ -393,18 +393,18 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure:
-          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          requires: [build-frontend, build-backend]
-          filters:
-            branches:
-              only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-         requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
+      # - deploy-infrastructure:
+      #     #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     requires: [build-frontend, build-backend]
+      #     filters:
+      #       branches:
+      #         only: [master]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      - run-migrations
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:

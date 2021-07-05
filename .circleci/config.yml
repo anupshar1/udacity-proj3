@@ -301,7 +301,7 @@ jobs:
           command: |
             # your code here
             cd frontend
-            aws s3 cp ./dist s3://udapeople-505103741405.s3.amazonaws.com --recursive
+            aws s3 cp ./dist s3://udapeople-505103741405 --recursive
 
       # Here's where you will add some code to rollback on failure 
       # - destroy-environment

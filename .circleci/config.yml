@@ -254,6 +254,7 @@ jobs:
             cd backend
             sudo apt-get update
             npm install
+            npm run migrations:revert
             npm run migrations > migration-output.txt
             cat migration-output.txt
             # - run:

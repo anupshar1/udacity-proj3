@@ -33,7 +33,7 @@ commands:
             sudo apt-get update
             apk add --update curl
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/)
+            SUCCESS=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/migout)
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -266,7 +266,7 @@ jobs:
             #       # Your code here
             if grep "has been executed successfully" migration-output.txt
             then 
-              curl -H "Content-Type: text/plain" -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request PUT --data "1" https://api.memstash.io/values/
+              curl -H "Content-Type: text/plain" -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request PUT --data "1" https://api.memstash.io/values/migout
             else 
               echo "Migration failed"
               return 1

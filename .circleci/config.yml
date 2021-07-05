@@ -237,7 +237,7 @@ jobs:
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
       # Here's where you will add some code to rollback on failure   
       - destroy-environment
-      
+
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
@@ -265,8 +265,8 @@ jobs:
               return 1
             fi
      # Here's where you will add some code to rollback on failure      
-     - destroy-environment
-     - revert-migrations
+      - destroy-environment
+      - revert-migrations
 
 #   deploy-frontend:
 #     docker:

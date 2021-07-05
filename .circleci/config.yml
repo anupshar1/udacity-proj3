@@ -291,6 +291,7 @@ jobs:
           name: Get backend url
           command: |
             # your code here
+            cd frontend
             BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
@@ -299,6 +300,7 @@ jobs:
           name: Deploy frontend objects
           command: |
             # your code here
+            cd frontend
             aws s3 cp ./dist s3://udapeople-505103741405.s3.amazonaws.com --recursive
 
       # Here's where you will add some code to rollback on failure 

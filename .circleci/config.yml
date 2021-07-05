@@ -263,7 +263,7 @@ jobs:
             #       # Your code here
             if grep "has been executed successfully" migration-output.txt
             then 
-              curl -H "Content-Type: text/plain" -H "token: udacity-proj3url-${CIRCLE_WORKFLOW_ID}" --request PUT --data "1" https://api.memstash.io/values/migout/
+              curl -H "Content-Type: text/plain" -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request PUT --data "1" https://api.memstash.io/values/migout/
             else 
               echo "Migration failed"
               return 1
@@ -283,6 +283,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
+            cd frontend
             sudo apt-get update
             npm install
       - run:
@@ -301,8 +302,8 @@ jobs:
             aws s3 cp ./dist udapeople-505103741405.s3.amazonaws.com
 
       # Here's where you will add some code to rollback on failure 
-      - destroy-environment
-      - revert-migrations     
+      # - destroy-environment
+      # - revert-migrations     
                     
 #   deploy-backend:
 #     docker:

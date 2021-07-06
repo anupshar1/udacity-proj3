@@ -1,4 +1,4 @@
-# ---
+---
 # - name: "update apt packages."
 #   become: yes
 #   apt:
@@ -29,18 +29,23 @@
 #     production: yes
 #     state: present
 
+- name: Creates directory
+  file:
+    path: /home/ubuntu/dist
+    state: directory
+
 - name: Copy code to backend server
   copy:
     src: "/home/circleci/project/backend/dist.tar.gz"
-    dest: "/home/ubuntu/"
+    dest: "/home/ubuntu/dist"
 
 - name: Install dependencies and create build on backend server
   shell: |
-    cd /home/ubuntu
+    cd /home/ubuntu/dist
     #sudo apt-get install unzip
     sudo apt-get install tar
     #unzip backend.zip
-    tar -xvzf dist.tar.gz -C /home/ubuntu/dist
+    tar -xvzf dist.tar.gz
     cd dist
     npm i
     npm run build

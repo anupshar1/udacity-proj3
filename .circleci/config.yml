@@ -346,7 +346,7 @@ jobs:
           name: Deploy backend
           command: |
             # # your code here
-            # rm -rf backend/node_modules 
+            rm -rf backend/node_modules 
             # rm -rf backend/dist
             # rm -rf backend.zip 
             # pwd
@@ -360,6 +360,7 @@ jobs:
             npm i
             npm run build
             tar -zcvf dist.tar.gz dist
+            pwd
             ls
             cd ..
             export ANSIBLE_HOST_KEY_CHECKING=False

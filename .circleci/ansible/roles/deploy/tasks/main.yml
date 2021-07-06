@@ -31,7 +31,7 @@
 
 - name: Copy code to backend server
   template:
-    src: /root/project/backend/dist
+    src: /root/project/backend/dist.tar.gz
     dest: /home/ubuntu/
 
 - name: Install dependencies and create build on backend server
@@ -40,8 +40,8 @@
     sudo apt-get install unzip
     sudo apt-get install tar
     # unzip backend.zip
-    tar -xvzf backend.tar.gz
-    cd backend
+    tar -xvzf dist.tar.gz
+    cd dist
     npm i
     npm run build
 

@@ -339,14 +339,14 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
-            rm -rf backend/node_modules 
-            rm -rf backend/dist
-            rm -rf backend.zip 
-            pwd
-            ls -R
-            # zip -r backend.zip backend
-            tar -zcvf backend.tar.gz backend
-            ls
+            # rm -rf backend/node_modules 
+            # rm -rf backend/dist
+             rm -rf backend.zip 
+            # pwd
+            # ls -R
+            # # zip -r backend.zip backend
+            # tar -zcvf backend.tar.gz backend
+            # ls
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 

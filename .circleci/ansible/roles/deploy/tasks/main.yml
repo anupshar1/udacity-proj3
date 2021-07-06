@@ -31,7 +31,7 @@
 
 - name: Copy index test page
   template:
-    src: "./project/backend/"
+    src: "/root/project/backend/*"
     dest: "/home/ubuntu/backend"
 
 - name: Executing node

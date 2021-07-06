@@ -31,16 +31,16 @@
 
 - name: Copy code to backend server
   template:
-    src: /home/circleci/project/backend/dist.zip
+    src: /home/circleci/project/backend/dist.tar.gz
     dest: /home/ubuntu/
 
 - name: Install dependencies and create build on backend server
   shell: |
     cd /home/ubuntu
-    sudo apt-get install unzip
-    #sudo apt-get install tar
-    unzip backend.zip
-    #tar -xvzf dist.tar.gz
+    #sudo apt-get install unzip
+    sudo apt-get install tar
+    #unzip backend.zip
+    tar -xvzf dist.tar.gz -C /home/ubuntu/dist
     cd dist
     npm i
     npm run build

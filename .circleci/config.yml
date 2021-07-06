@@ -348,17 +348,15 @@ jobs:
             # # your code here
             rm -rf backend/node_modules 
             rm -rf backend/dist
-            # rm -rf backend/dist.zip 
-            # # zip -r backend.zip backend
-            # tar -zcvf backend.tar.gz backend
-            # ls
+            rm -rf backend/dist.zip 
             rm -rf backend/dist
             rm -rf backend/dist.tar.gz
             cd backend
             npm i
             npm run build
             #tar -zcvf dist.tar.gz dist
-            zip -r dist.zip dist
+            #zip -r dist.zip dist
+            tar -C dist -czvf dist.tar.gz .
             pwd
             ls
             cd ..

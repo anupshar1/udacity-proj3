@@ -178,6 +178,7 @@ jobs:
               --stack-name "proj3-backend-${CIRCLE_WORKFLOW_ID}" \
               --tags project=${CIRCLE_WORKFLOW_ID} \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" \
+              --region us-east-1
 
       - run:
           name: Ensure front-end infrastructure exist

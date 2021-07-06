@@ -329,6 +329,7 @@ jobs:
             apk add --update ansible 
             apk add --update nodejs npm
             apk add --update zip
+            apk add --no-cache --upgrade bash
       - run:
           name: Deploy backend
           command: |

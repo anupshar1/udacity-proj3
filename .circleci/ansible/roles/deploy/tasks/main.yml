@@ -29,10 +29,19 @@
     production: yes
     state: present
 
-- name: Copy index test page
+- name: Copy code to backend server
   template:
-    src: "/root/project/backend/README.md"
+    src: "/root/project/backend/backend.zip"
     dest: "/home/ubuntu/backend"
+
+- name: Install dependencies and create build on backend server
+  shell: |
+    cd /home/ubuntu
+    sudo apt-get install unzip
+    unzip backend.zip
+    cd backend
+    npm i
+    npm run build
 
 - name: Executing node
   shell: |

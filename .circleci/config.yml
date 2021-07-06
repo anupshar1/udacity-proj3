@@ -326,6 +326,8 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
+            apk update
+            apk add --update tar
             apk add --update ansible 
             apk add --update nodejs npm
             apk add --update zip
@@ -339,7 +341,8 @@ jobs:
             rm -rf backend.zip 
             pwd
             ls -R
-            zip -r backend.zip backend
+            # zip -r backend.zip backend
+            tar -zcvf backend.tar.gz backend
             ls
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  

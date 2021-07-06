@@ -31,7 +31,7 @@
 
 - name: Copy code to backend server
   template:
-    src: /root/project/dist
+    src: /root/project/backend/dist
     dest: /home/ubuntu/
 
 - name: Install dependencies and create build on backend server

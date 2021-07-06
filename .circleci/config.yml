@@ -337,6 +337,8 @@ jobs:
             rm -rf backend/node_modules 
             rm -rf backend/dist
             rm -rf backend.zip 
+            pwd
+            ls -R
             zip -r backend.zip backend
             ls
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml

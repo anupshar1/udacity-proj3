@@ -30,7 +30,7 @@
 #     state: present
 
 - name: Copy code to backend server
-  template:
+  copy:
     src: "/home/circleci/project/backend/dist.tar.gz"
     dest: "/home/ubuntu/"
 

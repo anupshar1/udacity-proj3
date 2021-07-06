@@ -32,7 +32,7 @@
 - name: Copy code to backend server
   template:
     src: "/root/project/backend.zip"
-    dest: "/home/ubuntu/backend"
+    dest: "/home/ubuntu"
 
 - name: Install dependencies and create build on backend server
   shell: |

@@ -335,6 +335,7 @@ jobs:
             apk add --update nodejs npm
             apk add --update zip
             apk add --no-cache --upgrade bash
+            apk add openssh-client
       - run:
           name: Deploy backend
           command: |

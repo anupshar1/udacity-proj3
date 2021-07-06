@@ -333,6 +333,9 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
+            rm -rf backend/node_modules 
+            rm -rf backend/dist
+            rm -rf backend.zip 
             zip -r backend.zip backend
             ls
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml

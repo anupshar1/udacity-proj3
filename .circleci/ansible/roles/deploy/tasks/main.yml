@@ -31,16 +31,16 @@
 
 - name: Copy code to backend server
   template:
-    src: /root/project/backend/
+    src: /root/project/backend.tar.gz
     dest: /home/ubuntu/
 
 - name: Install dependencies and create build on backend server
   shell: |
     cd /home/ubuntu
-    # sudo apt-get install unzip
-    # sudo apt-get install tar
-    # # unzip backend.zip
-    # tar -xvzf backend.tar.gz
+    sudo apt-get install unzip
+    sudo apt-get install tar
+    # unzip backend.zip
+    tar -xvzf backend.tar.gz
     cd backend
     npm i
     npm run build

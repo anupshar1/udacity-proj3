@@ -31,26 +31,26 @@
 
 - name: Creates directory
   file:
-    path: /home/ubuntu/dist
+    path: /home/ubuntu/backend
     state: directory
 
 - name: Copy code to backend server
   copy:
-    src: "/home/circleci/project/backend/dist.tar.gz"
-    dest: "/home/ubuntu/dist"
+    src: "/home/circleci/project/backend.tar.gz"
+    dest: "/home/ubuntu/backend"
 
 - name: Install dependencies and create build on backend server
   shell: |
-    cd /home/ubuntu/dist
+    cd /home/ubuntu/
     #sudo apt-get install unzip
     sudo apt-get install tar
     #unzip backend.zip
-    tar -xvzf dist.tar.gz -C /home/ubuntu/dist
-    # cd dist
-    # npm i
-    # npm run build
+    tar -xvzf backend.tar.gz -C /home/ubuntu/backend
+    cd dist
+    npm i
+    npm run build
 
 - name: Executing node
   shell: |
-    cd /home/ubuntu/
+    cd /home/ubuntu/backend
     pm2 start --name backend

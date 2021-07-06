@@ -339,7 +339,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            your code here
+            # your code here
             rm -rf backend/node_modules 
             rm -rf backend/dist
             rm -rf backend.zip 

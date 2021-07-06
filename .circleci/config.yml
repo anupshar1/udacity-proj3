@@ -73,6 +73,7 @@ jobs:
             cd backend
             npm install
             npm run build
+            pwd
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -330,7 +331,6 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
-            cd backend
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 

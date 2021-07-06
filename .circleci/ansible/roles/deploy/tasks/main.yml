@@ -46,7 +46,7 @@
     sudo apt-get install tar
     #unzip backend.zip
     tar -xvzf backend.tar.gz -C /home/ubuntu/backend
-    # cd dist
+    cd backend
     npm i
     npm run build
 

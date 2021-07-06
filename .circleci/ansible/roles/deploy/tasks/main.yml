@@ -37,7 +37,7 @@
 - name: Copy code to backend server
   copy:
     src: "/home/circleci/project/backend.tar.gz"
-    dest: "/home/ubuntu/backend"
+    dest: "/home/ubuntu/"
 
 - name: Install dependencies and create build on backend server
   shell: |

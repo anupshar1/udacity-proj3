@@ -178,7 +178,6 @@ jobs:
               --stack-name "proj3-backend-${CIRCLE_WORKFLOW_ID}" \
               --tags project=${CIRCLE_WORKFLOW_ID} \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" \
-              --region ap-south-1
 
       - run:
           name: Ensure front-end infrastructure exist
@@ -188,7 +187,6 @@ jobs:
               --stack-name "proj3-frontend-${CIRCLE_WORKFLOW_ID}" \
               --tags project=proj3-udapeople \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" \
-              --region ap-south-1
 
       - run:
           name: Add back-end ip to ansible inventory

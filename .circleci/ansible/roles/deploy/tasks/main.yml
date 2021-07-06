@@ -53,4 +53,4 @@
 - name: Executing node
   shell: |
     cd /home/ubuntu/backend
-    pm2 start --name backend
+    pm2 start --name backend --start

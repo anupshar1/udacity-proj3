@@ -348,9 +348,12 @@ jobs:
             # # zip -r backend.zip backend
             # tar -zcvf backend.tar.gz backend
             # ls
+            rm -rf backend/dist
+            rm -rf backend/dist.tar.gz
             cd backend
             npm i
             npm run build
+            tar -zcvf dist.tar.gz dist
             ls
             cd ..
             export ANSIBLE_HOST_KEY_CHECKING=False

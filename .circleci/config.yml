@@ -340,7 +340,6 @@ jobs:
             sudo apt-get update
             sudo apt-get install tar
             sudo apt-get install ansible
-            sudo apt-get install nodejs npm
             sudo apt-get install openssh-client
 
       - run:

@@ -352,7 +352,6 @@ jobs:
             npm i
             npm run build
             export ANSIBLE_HOST_KEY_CHECKING=False
-            cd .circleci/ansible
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 

@@ -31,7 +31,7 @@
 
 - name: Copy index test page
   template:
-    src: "/home/circleci/project/backend/dist"
+    src: "/root/project/backend/"
     dest: "/home/ubuntu/backend"
 
 - name: Executing node

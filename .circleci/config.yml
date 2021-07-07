@@ -383,12 +383,13 @@ jobs:
           name: Backend smoke test.
           command: |
             # your code here
-              if curl -s --head ${API_URL}
-              then
-              return 0
-              else
-              return 1
-              fi
+            export API_URL="http://52.91.117.202:3030/api/status" 
+            if curl -s --head ${API_URL}
+            then
+            return 0
+            else
+            return 1
+            fi
       - run:
           name: Frontend smoke test.
           command: |
@@ -463,10 +464,10 @@ workflows:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
       #    requires: [run-migrations]
-      - deploy-backend
-          # requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend]
+      # - deploy-backend
+      #     # requires: [run-migrations]
+      - smoke-test
+          # requires: [deploy-backend] # temp
           # requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]

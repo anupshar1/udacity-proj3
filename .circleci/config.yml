@@ -304,7 +304,8 @@ jobs:
           command: |
             # your code here
             cd frontend
-            aws s3 cp ./dist s3://udapeople-505103741405 --recursive
+            aws s3 cp ./dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
+            #aws s3 cp ./dist s3://udapeople-505103741405 --recursive
 
       # Here's where you will add some code to rollback on failure 
       - destroy-environment
@@ -351,40 +352,51 @@ jobs:
             rm -rf backend/dist.zip 
             rm -rf backend/dist
             rm -rf backend/dist.tar.gz
-            # cd backend
-            # npm i
-            # npm run build
-            #tar -zcvf dist.tar.gz dist
-            #zip -r dist.zip dist
             tar -C backend -czvf backend.tar.gz .
-            pwd
-            ls
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
-#   smoke-test:
-#     docker:
-#       # Lightweight Docker image 
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#       - run:
-#           name: Backend smoke test.
-#           command: |
-#             # your code here
-#       - run:
-#           name: Frontend smoke test.
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  smoke-test:
+    docker:
+      # Lightweight Docker image 
+      - image: python:3.7-alpine3.11
+    steps:
+      # Checkout code from git
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update curl
+      - run:
+          name: Get backend url
+          command: |
+            # your code here
+            BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
+            export API_URL="http://${BACKEND_IP}:3030/api/status"           
+      - run:
+          name: Backend smoke test.
+          command: |
+            # your code here
+              if curl -s --head ${API_URL}
+              then
+              return 0
+              else
+              return 1
+              fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            # your code here
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com"
+            #URL="http://udapeople-505103741405.s3-website-ap-south-1.amazonaws.com"
+            if curl -s ${URL} | grep "Welcome"
+            then
+            return 1
+            else
+            return 0
+            fi
+      # Here's where you will add some code to rollback on failure  
 
 #   cloudfront-update:
 #     docker:
@@ -434,20 +446,20 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      # - deploy-infrastructure:
-      #     #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #     #requires: [build-frontend, build-backend]
-      #     filters:
-      #       branches:
-      #         only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #    requires: [run-migrations]
-      - deploy-backend
-          # requires: [deploy-infrastructure]
+      - deploy-infrastructure
+          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          #requires: [build-frontend, build-backend]
+          filters:
+            branches:
+              only: [master]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+         requires: [run-migrations]
+      - deploy-backend:
+          requires: [deploy-infrastructure]
       #     # requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]

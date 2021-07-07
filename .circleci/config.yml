@@ -197,6 +197,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
             --output text >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
       - run:
           name: Add back-end url for later use 
           command: |
@@ -308,8 +309,8 @@ jobs:
             #aws s3 cp ./dist s3://udapeople-505103741405 --recursive
 
       # Here's where you will add some code to rollback on failure 
-      - destroy-environment
-      - revert-migrations     
+      # - destroy-environment
+      # - revert-migrations     
                     
   deploy-backend:
     docker:
@@ -353,11 +354,12 @@ jobs:
             rm -rf backend/dist
             rm -rf backend/dist.tar.gz
             tar -C backend -czvf backend.tar.gz .
+            cat .circleci/ansible/inventory.txt
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure 
-      - destroy-environment
-      - revert-migrations 
+      # - destroy-environment
+      # - revert-migrations 
 
   smoke-test:
     docker:

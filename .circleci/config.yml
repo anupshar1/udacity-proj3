@@ -376,8 +376,9 @@ jobs:
           name: Get backend url
           command: |
             # your code here
-            BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
-            export API_URL="http://${BACKEND_IP}:3030/api/status"           
+            # BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
+            # export API_URL="http://${BACKEND_IP}:3030/api/status"    
+            export API_URL="http://52.91.117.202:3030/api/status"         
       - run:
           name: Backend smoke test.
           command: |
@@ -392,8 +393,8 @@ jobs:
           name: Frontend smoke test.
           command: |
             # your code here
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com"
-            #URL="http://udapeople-505103741405.s3-website-ap-south-1.amazonaws.com"
+            #URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com"
+            URL="http://udapeople-7a61bd88-6caf-43b5-86e3-c9c305256029.s3-website-us-east-1.amazonaws.com"
             if curl -s ${URL} | grep "Welcome"
             then
             return 1
@@ -450,22 +451,23 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure:
-          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          #requires: [build-frontend, build-backend]
-          filters:
-            branches:
-              only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-         requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      # - deploy-infrastructure:
+      #     #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     #requires: [build-frontend, build-backend]
+      #     filters:
+      #       branches:
+      #         only: [master]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #    requires: [run-migrations]
+      - deploy-backend
+          # requires: [run-migrations]
+      - smoke-test:
+          requires: [deploy-backend]
+          # requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:

@@ -384,7 +384,7 @@ jobs:
           command: |
             # your code here
             export API_URL="http://52.91.117.202:3030/api/status" 
-            if curl -s --head $API_URL
+            if curl -s --head http://52.91.117.202:3030/api/status
             then
               return 0
             else

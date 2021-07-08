@@ -6,9 +6,6 @@ orbs:
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-    docker:
-      # Docker image here that supports AWS CLI
-      - image: cibuilds/aws:1.16.1
     parameters:
       # Add parameter here   
     steps:

@@ -383,8 +383,8 @@ jobs:
           name: Backend smoke test.
           command: |
             # your code here
-            export API_URL="http://52.91.117.202:3030/api/status" 
-            if curl -s --head http://52.91.117.202:3030/api/status
+            export API_URL="http://54.166.141.202:3030/api/status" 
+            if curl -s --head http://54.166.141.202:3030/api/status
             then
               return 0
             else

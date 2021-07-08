@@ -17,12 +17,9 @@ commands:
           when: on_fail
           command: |
             # Your code here
-            sudo apt-get update
-            sudo apt-get install awscli
             aws cloudformation delete-stack --stack-name proj3-backend-${CIRCLE_WORKFLOW_ID}
             aws s3 rm s3://udapeople-"$CIRCLE_WORKFLOW_ID" --recursive
-            aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}
-            
+            aws cloudformation delete-stack --stack-name proj3-frontend-${CIRCLE_WORKFLOW_ID}        
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -240,6 +237,7 @@ jobs:
           command: |
             # Your code here
             apk add --update ansible 
+            apk add --update awscli
       - run:
           name: Configure server
           command: |
@@ -342,7 +340,7 @@ jobs:
             sudo apt-get update
             sudo apt-get install python3
             sudo apt-get install ansible
-            sudo apt-get install openssh-client
+            sudo apt-get install awscli
 
       - run:
           name: Deploy backend
@@ -372,6 +370,7 @@ jobs:
           command: |
             # your code here
             apk add --update curl
+            apk add --update awscli
       # - run:
       #     name: Get backend url
       #     command: |
@@ -454,22 +453,22 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure:
-          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          #requires: [build-frontend, build-backend]
-          filters:
-            branches:
-              only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-         requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - deploy-infrastructure:
+      #     #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     #requires: [build-frontend, build-backend]
+      #     filters:
+      #       branches:
+      #         only: [master]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #    requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      - smoke-test
+          # requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:

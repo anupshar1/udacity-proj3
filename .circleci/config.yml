@@ -380,6 +380,7 @@ jobs:
           command: |
             # your code here
             BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
+            echo $API_URL
             export API_URL="http://${BACKEND_IP}:3030/api/status" 
             if curl -s --head $API_URL
             then
@@ -399,8 +400,8 @@ jobs:
             return 0
             fi
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment
-      - revert-migrations 
+      # - destroy-environment
+      # - revert-migrations 
 
   cloudfront-update:
     docker:

@@ -340,8 +340,7 @@ jobs:
             # apk add --no-cache --upgrade bash
             # apk add openssh-client
             sudo apt-get update
-            sudo apt-get install tar
-            sudo apt get install python3
+            sudo apt-get install python3
             sudo apt-get install ansible
             sudo apt-get install openssh-client
 

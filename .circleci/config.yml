@@ -378,7 +378,7 @@ jobs:
             # your code here
             # BACKEND_IP=$(curl -H "token: udacity-proj3-migout-${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/backendip)
             # export API_URL="http://${BACKEND_IP}:3030/api/status"    
-            export API_URL="http://52.91.117.202:3030/api/status"         
+            export API_URL="http://54.166.141.202:3030/api/status"         
       - run:
           name: Backend smoke test.
           command: |

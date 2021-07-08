@@ -405,9 +405,10 @@ jobs:
   cloudfront-update:
     docker:
       # Docker image here that supports AWS CLI
+      - image: cibuilds/aws:1.16.1
     steps:
       # Checkout code from git
-      - image: cibuilds/aws:1.16.1
+      - checkout
       - run:
           name: Install dependencies
           command: |

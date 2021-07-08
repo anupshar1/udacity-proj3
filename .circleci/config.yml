@@ -6,6 +6,9 @@ orbs:
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+    docker:
+      # Docker image here that supports AWS CLI
+      - image: cibuilds/aws:1.16.1
     parameters:
       # Add parameter here   
     steps:
@@ -395,9 +398,9 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com"
             if curl -s ${URL} | grep "Welcome"
             then
-            return 1
-            else
             return 0
+            else
+            return 1
             fi
       # Here's where you will add some code to rollback on failure  
       - destroy-environment

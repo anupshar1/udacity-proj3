@@ -234,7 +234,6 @@ jobs:
           command: |
             # Your code here
             apk add --update ansible 
-            apk add --update awscli
       - run:
           name: Configure server
           command: |
@@ -367,7 +366,7 @@ jobs:
           command: |
             # your code here
             apk add --update curl
-            apk add --update awscli
+            pip install awscli
       # - run:
       #     name: Get backend url
       #     command: |

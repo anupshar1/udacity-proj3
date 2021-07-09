@@ -201,7 +201,7 @@ jobs:
           command: |
             # Your code here
             URL=$(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicDnsName' \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=${CIRCLE_WORKFLOW_ID}" \
             --output text)
             echo $URL
@@ -425,24 +425,30 @@ jobs:
               --parameter-overrides ID="a437c391-c922-4a6a-902e-c4f29af920d9" 
       # Here's where you will add some code to rollback on failure  
 
-# cleanup:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Get old stack workflow id
-#           command: |
-#             # your code here
-#             export OldWorkflowID="the id here"
-#             export STACKS=[] #put the list of stacks here
-#       - run:
-#           name: Remove old stacks and files
-#           command: |
-#             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-#             then
-#               # your code here
-#             fi
+cleanup:
+    docker:
+      # Docker image here
+      - image: cibuilds/aws:1.16.1
+    steps:
+      # Checkout code from git
+      - run:
+          name: Get old stack workflow id
+          command: |
+            # your code here
+            export OldWorkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+      - run:
+          name: Remove old stacks and files
+          command: |
+            if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+            then
+              aws cloudformation delete-stack --stack-name "proj3-backend-backend-${OldWorkflowID}"
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive)
+              aws cloudformation delete-stack --stack-name "proj3-frontend-backend-${OldWorkflowID}"
+            fi
             
 
 workflows:
@@ -476,5 +482,5 @@ workflows:
       #     requires: [deploy-backend, deploy-frontend]
       - cloudfront-update
           # requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]

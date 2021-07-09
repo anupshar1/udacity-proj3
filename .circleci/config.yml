@@ -425,7 +425,7 @@ jobs:
               --parameter-overrides ID="a437c391-c922-4a6a-902e-c4f29af920d9" 
       # Here's where you will add some code to rollback on failure  
 
-cleanup:
+  cleanup:
     docker:
       # Docker image here
       - image: cibuilds/aws:1.16.1

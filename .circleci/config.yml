@@ -400,8 +400,8 @@ jobs:
             return 0
             fi
       # Here's where you will add some code to rollback on failure  
-      # - destroy-environment
-      # - revert-migrations 
+      - destroy-environment
+      - revert-migrations 
 
   cloudfront-update:
     docker:
@@ -422,8 +422,10 @@ jobs:
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "proj3-CDN-Final" \
               --tags project=proj3-udapeople \
-              --parameter-overrides WorkflowID="a437c391-c922-4a6a-902e-c4f29af920d9" 
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}" 
       # Here's where you will add some code to rollback on failure  
+      - destroy-environment
+      - revert-migrations 
 
   cleanup:
     docker:
@@ -447,10 +449,10 @@ jobs:
           command: |
             for ((i=0;i<${#STACKS[@]};i++))
               do
-                if [[ "${STACKS[i]:14}" =~ "${CIRCLE_WORKFLOW_ID}" ]]
+                if [[ "${STACKS[i]:14}" =~ "${WorkflowID}" ]]
                 then
                   aws cloudformation delete-stack --stack-name "proj3-backend-backend-${STACKS[i]:14}"
-                  aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                  aws s3 rm "s3://udapeople-${STACKS[i]:14}" --recursive
                   aws cloudformation delete-stack --stack-name "proj3-frontend-frontend-${STACKS[i]:14}"
                 fi
               done
@@ -469,23 +471,23 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      # - deploy-infrastructure:
-      #     #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #     #requires: [build-frontend, build-backend]
-      #     filters:
-      #       branches:
-      #         only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #    requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
-      # - cloudfront-update
-      #     requires: [smoke-test]
-      - cleanup
-          # requires: [cloudfront-update]
+      - deploy-infrastructure:
+          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          #requires: [build-frontend, build-backend]
+          filters:
+            branches:
+              only: [master]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+         requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
+      - cloudfront-update
+          requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]

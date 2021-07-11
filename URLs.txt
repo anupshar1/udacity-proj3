@@ -3,17 +3,17 @@ URL01: Git hub repository
 	
 URL02: S3 bucket URL
 
-	http://udapeople-61b20da2-837d-4780-9990-16ee151beff0.s3-website-us-east-1.amazonaws.com
+	http://udapeople-ac052c70-a212-4bdb-96ad-fc1c7b863ae9.s3-website-us-east-1.amazonaws.com
 
 URL03: Cloud Front distribution
 
-	udapeople-61b20da2-837d-4780-9990-16ee151beff0.s3.amazonaws.com
+	d3hbsqe8iwdyg.cloudfront.net
 
 URL04: Backend EC2
 
-	ec2-3-224-114-133.compute-1.amazonaws.com
+	ec2-100-25-3-26.compute-1.amazonaws.com
 	
 URL05: Public URL to Prometheus Server
-	http://ec2-3-208-73-181.compute-1.amazonaws.com:9090/
+	http://ec2-44-193-223-164.compute-1.amazonaws.com:9090/
 	
 

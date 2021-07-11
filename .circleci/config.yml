@@ -258,7 +258,8 @@ jobs:
             cd backend
             sudo apt-get update
             npm install
-            npm run migrations:revert > migration-output.txt
+            npm run migrations:revert
+            # npm run migrations > migration-output.txt
             cat migration-output.txt
             if grep "has been executed successfully" migration-output.txt
             then 
